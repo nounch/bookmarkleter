@@ -84,7 +84,6 @@ var Bookmarkleter = (function() {
       var keys = Object.keys(bookmarklets);
 
       // Compress all bookmarklets
-      // TODO: Uncomment
       for (var i = 0; i < keys.length; ++i) {
         this._compress(bookmarklets[keys[i]],
                        path.basename(bookmarklets[keys[i]]))
@@ -92,7 +91,7 @@ var Bookmarkleter = (function() {
 
       // Replace every .js file with the compressed .js.min file. This
       // has to be done since `node-minify' does not allow to retrieve
-      // the compressed/minified string directly, but insists in writing
+      // the compressed/minified string directly, but insists on writing
       // it to the disk.
       var files = fs.readdirSync(this.outDir) || [];
 
@@ -131,15 +130,29 @@ var Bookmarkleter = (function() {
 
 var bookmarkleter = new Bookmarkleter();
 
+//
+// Define the final order of all JavaScript files:
+//
+
+//
+// Example 1
+//
+// (This example demonstrates that you can stick your JS code in any
+// directory and reference it by prefixing the file name with the directory
+// name - here: `static/jquery-1.9.1.js')
+//
 // bookmarkleter.run({
 //   'Red Bookmarklet': ['static/jquery-1.9.1.js', 'bookmarklets/red.js'],
-//   'Green Bookmarklet': ['static/jquery-1.9.1.js', 'bookmarklets/green.js'],
+//   'Green Bookmarklet': ['static/jquery-1.9.1.js',
+//                      'bookmarklets/green.js'],
 // });
+//
 
+//
+// Example 2
+//
 bookmarkleter.run({
-  'Red Bookmarklet': ['bookmarklets/red.js'],
-  'Green Bookmarklet': ['bookmarklets/green.js'],
+  'Bookmarklet': ['bookmarklets/bookmarklet.js'],
 });
 
-console.log(bookmarkleter.outFile);  // DEBUG
-
+console.log(bookmarkleter.outFile);
